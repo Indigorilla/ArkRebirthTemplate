@@ -48,7 +48,7 @@ public partial class AvatarControllerService
         
         isPossession = false;
         
-        screenPositionAction.Enable();
+        screenPositionAction.Disable();
         
         moveAction.performed -= OnMoveToInput;
         moveAction.Disable();
