@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6620d28d5a74044b0380972e5e93523, type: 3}
+  m_Name: AvatarSettings
+  m_EditorClassIdentifier: 
+  ModelName: SampleAvatar
+  NavmeshMoverSettings:
+    Speed: 5
+    BaseOffset: -0.05
+    AngularSpeed: 360
+    Acceleration: 1000
+    ObstacleAvoidanceType: 2
+    AutoBraking: 0
+    StoppingDistance: 0
