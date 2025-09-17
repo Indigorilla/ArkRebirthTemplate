@@ -10,6 +10,7 @@ Ark:Rebirth의 개발 구상 단계에서 작성한 프로젝트의 템플릿입
 * NavMesh 기반의 이동 처리
 * Animator 기반의 애니메이션 처리
 * ScriptableObject를 활용한 게임 데이터 처리
+* Built-in Render Pipeline 기반 셰이더
 
 ## 실행 방법 및 조작법
 Scenes 폴더의 Game.unity 씬 활성화 > 플레이 모드 실행
@@ -51,7 +52,13 @@ Code/Setting 경로에 위치
 * AvatarAnimationSettings.cs : 캐릭터 애니메이션에 필요한 데이터 처리
 * LevelSettings.cs : 레벨에 관련된 데이터 처리
 
+### Built-in Render Pipeline 기반 캐릭터 셰이더
+Shader 경로에 위치
+* Avatar.shader : 비실사 손맵 기반의 캐릭터 셰이더.
+림 라이팅, 셀프 그림자(정점 G채널 이용한 가중치), Hair Gloss, Reflection Map 등의 기능 구현
+
 ## 의존성
 * [UniRx](https://github.com/neuecc/UniRx)
 * [VContainer](https://github.com/hadashiA/VContainer)
 * [GOAP for Unity](https://github.com/crashkonijn/GOAP)
+* [UniTask](https://github.com/Cysharp/UniTask)
