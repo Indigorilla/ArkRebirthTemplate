@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using CrashKonijn.Agent.Runtime;
 using CrashKonijn.Goap.Runtime;
@@ -24,12 +23,12 @@ public class AvatarSpawner : NetworkBehaviour
     
     private void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnApplicationQuit()
     {
-        NetworkManager.Singleton.Shutdown();
+        NetworkManager.Singleton?.Shutdown();
     }
 
     public override void OnNetworkSpawn()

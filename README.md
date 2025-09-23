@@ -13,7 +13,7 @@ Ark:Rebirth의 개발 구상 단계에서 작성한 프로젝트의 템플릿입
 * Animator 기반의 애니메이션 처리
 * ScriptableObject를 활용한 게임 데이터 처리
 * Built-in Render Pipeline 기반 셰이더
-* Netcode for GameObject (_*새로 추가됨_)
+* Netcode for GameObject 기반 이동 및 애니메이션 동기화 (_*새로 추가됨_) 
 
 ## 실행 방법 및 조작법
 Scenes 폴더의 Lobby.unity 씬 활성화 > 플레이 모드 실행 > Start Host 버튼 클릭
