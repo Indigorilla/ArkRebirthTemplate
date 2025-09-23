@@ -2,7 +2,6 @@
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 
@@ -13,6 +12,7 @@ public class GameLoader : IAsyncStartable
     [Inject] AvatarControllerService avatarControllerService;
     [Inject] MoveTargetMakerService moveTargetMakerService;
     [Inject] AvatarContainer avatarContainer;
+    [Inject] AiChatService aiChatService;
     
     bool isNetworkStarted = false;
     
@@ -20,16 +20,7 @@ public class GameLoader : IAsyncStartable
     {
         AnimationEnum.Initialize();
         
-        NetworkManager.Singleton.OnConnectionEvent += (manager, data) =>
-        {
-            Debug.Log($"Client Started. {NetworkManager.Singleton.LocalClientId}");
-            isNetworkStarted = true;
-        };
-        
-        while (!isNetworkStarted)
-        {
-            await UniTask.Yield();
-        }
+        aiChatService.Initialize();
         
         var isLoaded = await levelLoader.LoadAsync(1);
         if (!isLoaded)

@@ -8,7 +8,7 @@ using UniRx;
 
 public partial class AvatarControllerService
 {
-    [Inject] private Camera mainCamera;
+    [Inject] private AvatarCameraService avatarCameraService;
     
     private InputAction moveAction;
     private InputAction screenPositionAction;
@@ -85,11 +85,10 @@ public partial class AvatarControllerService
         {
             return;
         }
-        
-        var ray = mainCamera.ScreenPointToRay(screenPosition);
-        if (Physics.Raycast(ray, out var hit))
+
+        if (avatarCameraService.MainCameraRaycast(screenPosition, out var hitPoint))
         {
-            MoveTo(hit.point);
+            MoveTo(hitPoint);
             IsWanderingMode.Value = false;
         }
     }

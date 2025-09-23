@@ -11,7 +11,7 @@ using VContainer.Unity;
 public class AvatarSpawner : NetworkBehaviour
 {
     [Inject] private Avatar avatarPrefab;
-    [SerializeField] private GameLifetimeScope lifetimeScope;
+    [SerializeField] private LobbyLifetimeScope lifetimeScope;
 
     private static AvatarSpawner instance;
     public static AvatarSpawner Singleton => instance;

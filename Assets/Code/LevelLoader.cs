@@ -6,6 +6,7 @@ using VContainer;
 public class LevelLoader
 {
     [Inject] private LevelSettings levelSettings;
+    [Inject] AiChatService aiChatService;
     
     private int lastLevelUnique;
     private GameObject lastLevelObject;
@@ -40,6 +41,17 @@ public class LevelLoader
 
         lastLevelObject = getLevelObject;
 
+        InitializeSceneObject();
+        
         return true;
+    }
+
+    private void InitializeSceneObject()
+    {
+        var aiChatAgents = lastLevelObject.GetComponentsInChildren<AiChatAgent>();
+        foreach (var agent in aiChatAgents)
+        {
+            aiChatService.SetAiChatAgent(agent);
+        }
     }
 }
