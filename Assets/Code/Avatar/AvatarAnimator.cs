@@ -9,7 +9,9 @@ public class AvatarAnimator : MonoBehaviour, IAnimator
     private Animator animator;
     private readonly Dictionary<AnimationEnum.Type, float> aniClipLength = new();
     private bool isInitialize;
-    
+    private AnimationEnum.Type currentAnimation;
+    public AnimationEnum.Type CurrentAnimation => currentAnimation;
+
     public void Initialize()
     {
         animator = gameObject.GetComponentInChildren<Animator>();
@@ -40,6 +42,8 @@ public class AvatarAnimator : MonoBehaviour, IAnimator
         {
             return;
         }
+        
+        currentAnimation = type;
         
         animator.CrossFade(hash, 0.1f);
     }

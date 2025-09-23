@@ -3,6 +3,7 @@ using CrashKonijn.Agent.Runtime;
 using CrashKonijn.Goap.Runtime;
 using Cysharp.Threading.Tasks;
 using GOAP;
+using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using UnityEngine;
 using VContainer;
 
@@ -13,7 +14,6 @@ public class Avatar : MonoBehaviour
     [Inject] private AvatarAnimationSettings avatarAnimationSettings;
     [Inject] private GoapBehaviour goap;
     
-    private int avatarSequence;
     private CancellationTokenSource initializeCancellationTokenSource;
 
     private IMover mover;
@@ -26,19 +26,27 @@ public class Avatar : MonoBehaviour
     private GoapActionProvider actionProvider;
     
     private GameObject modelRoot;
+    
+    private ClientNetworkAnimator clientNetworkAnimator;
 
-    public void Initialize(int avatarSequence)
+    public void Initialize(ulong clientId)
     {
-        this.avatarSequence = avatarSequence;
+        gameObject.name = $"Avatar_{clientId}";
         
         mover = gameObject.GetComponent<NavMeshMover>();
         animator = gameObject.GetComponent<AvatarAnimator>();
         
         actionProvider = gameObject.GetComponent<GoapActionProvider>();
-        actionProvider.AgentType = goap.GetAgentType("Avatar");
+        if (actionProvider != null)
+        {
+            actionProvider.AgentType = goap.GetAgentType("Avatar");    
+        }
         
         agentBehaviour = gameObject.GetComponent<AgentBehaviour>();
-        agentBehaviour.ActionProvider = actionProvider;
+        if (agentBehaviour != null)
+        {
+            agentBehaviour.ActionProvider = actionProvider;    
+        }
         
         initializeCancellationTokenSource = new CancellationTokenSource();
         StartAsync(initializeCancellationTokenSource.Token).Forget();
@@ -64,7 +72,7 @@ public class Avatar : MonoBehaviour
     private async UniTask StartAsync(CancellationToken cancellation)
     {
         var modelName = avatarSettings.ModelName;
-        modelRoot = await avatarModelService.GetModel(modelName, transform);
+        modelRoot = await avatarModelService.GetModelAsync(modelName, transform);
         if (modelRoot == null)
         {
             Debug.Log($"modelObject is null. {modelName}");

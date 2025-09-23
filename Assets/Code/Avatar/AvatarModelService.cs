@@ -7,11 +7,11 @@ public class AvatarModelService
 {
     private readonly Dictionary<string, GameObject> loadedAvatarModels = new();
     
-    public async UniTask<GameObject> GetModel(string name, Transform parent)
+    public async UniTask<GameObject> GetModelAsync(string name, Transform parent)
     {
         if (loadedAvatarModels.TryGetValue(name, out var model))
         {
-            return model;
+            return GameObject.Instantiate(model, parent);
         }
         
         var loadedModel = await Addressables.LoadAssetAsync<GameObject>(name);
@@ -21,7 +21,7 @@ public class AvatarModelService
             return null;
         }
         
-        loadedAvatarModels.Add(name, loadedModel);
+        loadedAvatarModels.TryAdd(name, loadedModel);
         
         var modelInstance = GameObject.Instantiate(loadedModel, parent);
         return modelInstance;

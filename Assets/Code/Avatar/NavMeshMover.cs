@@ -66,7 +66,7 @@ public class NavMeshMover : MonoBehaviour, IMover
         CheckStop();
     }
 
-    private bool CheckStop()
+    private void CheckStop()
     {
         if (navMeshAgent.remainingDistance <= 0.1f)
         {
@@ -81,10 +81,8 @@ public class NavMeshMover : MonoBehaviour, IMover
 
                 Stop();
 
-                return true;
+                return;
             }
         }
-        
-        return false;
     }
 }

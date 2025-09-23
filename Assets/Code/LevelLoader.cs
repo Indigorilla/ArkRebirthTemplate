@@ -10,7 +10,7 @@ public class LevelLoader
     private int lastLevelUnique;
     private GameObject lastLevelObject;
     
-    public async UniTask<bool> Load(int levelUnique)
+    public async UniTask<bool> LoadAsync(int levelUnique)
     {
         if (lastLevelUnique == levelUnique)
         {
