@@ -7,7 +7,7 @@ public class AvatarModelService
 {
     private readonly Dictionary<string, GameObject> loadedAvatarModels = new();
     
-    public async UniTask<GameObject> GetModel(string name, Transform parent)
+    public async UniTask<GameObject> GetModelAsync(string name, Transform parent)
     {
         if (loadedAvatarModels.TryGetValue(name, out var model))
         {

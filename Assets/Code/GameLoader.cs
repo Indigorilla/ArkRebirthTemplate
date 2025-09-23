@@ -9,7 +9,6 @@ using VContainer.Unity;
 public class GameLoader : IAsyncStartable
 {
     [Inject] LevelLoader levelLoader;
-    [Inject] AvatarLoader avatarLoader;
     [Inject] AvatarCameraService avatarCameraService;
     [Inject] AvatarControllerService avatarControllerService;
     [Inject] MoveTargetMakerService moveTargetMakerService;
@@ -32,7 +31,7 @@ public class GameLoader : IAsyncStartable
             await UniTask.Yield();
         }
         
-        var isLoaded = await levelLoader.Load(1);
+        var isLoaded = await levelLoader.LoadAsync(1);
         if (!isLoaded)
         {
             Debug.Log("Level Load Failed.");
@@ -46,14 +45,7 @@ public class GameLoader : IAsyncStartable
             await UniTask.Yield();
         }
         
-        /*var mainAvatar = avatarLoader.Load(NetworkManager.Singleton.LocalClientId);
-        if (mainAvatar == null)
-        {
-            Debug.Log("Avatar Load Failed.");
-            return;
-        }*/
-        
-        await moveTargetMakerService.Initialize();
+        await moveTargetMakerService.InitializeAsync();
         
         avatarCameraService.Initialize(mainAvatar);
         avatarControllerService.Possession(mainAvatar);

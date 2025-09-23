@@ -72,7 +72,7 @@ public class Avatar : MonoBehaviour
     private async UniTask StartAsync(CancellationToken cancellation)
     {
         var modelName = avatarSettings.ModelName;
-        modelRoot = await avatarModelService.GetModel(modelName, transform);
+        modelRoot = await avatarModelService.GetModelAsync(modelName, transform);
         if (modelRoot == null)
         {
             Debug.Log($"modelObject is null. {modelName}");
@@ -86,9 +86,6 @@ public class Avatar : MonoBehaviour
         
         mover.Initialize();
         animator.Initialize();
-        
-        /*clientNetworkAnimator = gameObject.AddComponent<ClientNetworkAnimator>();
-        clientNetworkAnimator.Animator = animator.Animator;*/
     }
 
     private void OnDestroy()

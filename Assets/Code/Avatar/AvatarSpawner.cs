@@ -35,8 +35,8 @@ public class AvatarSpawner : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         NetworkManager.Singleton.OnConnectionEvent += OnConnectionEvent;
-        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
-        NetworkManager.Singleton.SceneManager.OnSynchronizeComplete += OnSynchronizeComplete;
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;  //Host 시작시
+        NetworkManager.Singleton.SceneManager.OnSynchronizeComplete += OnSynchronizeComplete; //Host 시작 후 피어 접속 처리
 
         if (IsHost)
         {
@@ -46,7 +46,7 @@ public class AvatarSpawner : NetworkBehaviour
 
     private void OnConnectionEvent(NetworkManager networkManager, ConnectionEventData connectionEventData)
     {
-        
+        Debug.Log($"OnConnectionEvent {connectionEventData.ClientId}, {connectionEventData.EventType}");
     }
 
     public override void OnNetworkDespawn()
@@ -65,7 +65,7 @@ public class AvatarSpawner : NetworkBehaviour
         var newAvatar = Instantiate(avatarPrefab, Vector3.zero, Quaternion.identity);
         newAvatar.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
     }
-
+    
     private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         if (!IsHost || sceneName != "Game")
@@ -80,7 +80,7 @@ public class AvatarSpawner : NetworkBehaviour
         }
     }
     
-    public async UniTask AfterSpawnAsync(ulong clientId)
+    public async UniTask SpawnAsync(ulong clientId)
     {
         var avatarContainer = lifetimeScope.Container.Resolve<AvatarContainer>();
         if (avatarContainer.Has(clientId))
@@ -115,7 +115,7 @@ public class AvatarSpawner : NetworkBehaviour
         avatarContainer.Add(clientId, avatar);
     }
 
-    public void AfterDespawn(ulong clientId)
+    public void Despawn(ulong clientId)
     {
         var avatarContainer = lifetimeScope.Container.Resolve<AvatarContainer>();
         if (!avatarContainer.Has(clientId))

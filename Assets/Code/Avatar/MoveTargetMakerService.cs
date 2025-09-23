@@ -12,7 +12,7 @@ public class MoveTargetMakerService
 
     private MarkerData markerData;
 
-    public async UniTask Initialize()
+    public async UniTask InitializeAsync()
     {
         var effect = await Addressables.InstantiateAsync("EffectMoveTarget");
         

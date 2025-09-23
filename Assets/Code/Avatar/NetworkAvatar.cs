@@ -20,7 +20,7 @@ public class NetworkAvatar : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         
-        AvatarSpawner.Singleton.AfterSpawnAsync(OwnerClientId).Forget();
+        AvatarSpawner.Singleton.SpawnAsync(OwnerClientId).Forget();
         
         networkAnimationState.OnValueChanged += HandleNetworkAnimationChanged;
     }
@@ -29,7 +29,7 @@ public class NetworkAvatar : NetworkBehaviour
     {
         base.OnNetworkDespawn();
         
-        AvatarSpawner.Singleton.AfterDespawn(OwnerClientId);
+        AvatarSpawner.Singleton.Despawn(OwnerClientId);
         
         networkAnimationState.OnValueChanged -= HandleNetworkAnimationChanged;
     }
@@ -56,7 +56,7 @@ public class NetworkAvatar : NetworkBehaviour
             return;
         }
         
-        var currentAnimation = avatar.Animator.CurrentAnimation;
+        var currentAnimation = avatar.Animator?.CurrentAnimation ?? AnimationEnum.Type.Idle;
         if (networkAnimationState.Value != currentAnimation)
         {
             networkAnimationState.Value = currentAnimation;
