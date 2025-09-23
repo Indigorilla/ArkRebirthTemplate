@@ -1,5 +1,6 @@
 using CrashKonijn.Agent.Runtime;
 using CrashKonijn.Goap.Runtime;
+using Unity.Netcode;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -12,6 +13,7 @@ public class GameLifetimeScope : LifetimeScope
     [SerializeField] private AvatarCameraService avatarCameraService;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GoapBehaviour goap;
+    [SerializeField] private Avatar avatarPrefab;
     
     protected override void Configure(IContainerBuilder builder)
     {
@@ -21,25 +23,29 @@ public class GameLifetimeScope : LifetimeScope
         builder.RegisterInstance(avatarCameraService);
         builder.RegisterInstance(mainCamera);
         builder.RegisterInstance(goap);
+        builder.RegisterInstance(avatarPrefab);
         
-        builder.RegisterFactory<int, Avatar>(container =>
+        /*builder.RegisterFactory<ulong, bool>(container =>
         {
-            Avatar InstantiateAvatar(int avatarSequence)
+            bool InstantiateAvatar(ulong clientId)
             {
-                var newGameObject = new GameObject($"Avatar_{avatarSequence}");
-                var newAvatar = newGameObject.AddComponent<Avatar>();
-                newGameObject.AddComponent<NavMeshMover>();
-                newGameObject.AddComponent<AvatarAnimator>();
-                
+                return SpawnPlayer(clientId);
+                /*var newGameObject = Instantiate(avatarPrefab, Vector3.zero, Quaternion.identity);
+                newGameObject.name = $"Avatar_{avatarSequence}";
+
+                //var newAvatar = newGameObject.AddComponent<Avatar>();
+                //newGameObject.AddComponent<NavMeshMover>();
+                //newGameObject.AddComponent<AvatarAnimator>();
+
                 //Add Behaviour
-                newGameObject.AddComponent<GoapActionProvider>();
-                newGameObject.AddComponent<AgentBehaviour>();
-                
-                return newAvatar;
+                //newGameObject.AddComponent<GoapActionProvider>();
+                //newGameObject.AddComponent<AgentBehaviour>();
+
+                return newGameObject.GetComponent<Avatar>();#1#
             }
             
             return InstantiateAvatar;
-        }, Lifetime.Singleton);
+        }, Lifetime.Singleton);*/
 
         builder.Register<AvatarModelService>(Lifetime.Singleton);
         builder.Register<AvatarLoader>(Lifetime.Singleton);
@@ -50,5 +56,41 @@ public class GameLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<MainAvatarHPTickService>(Lifetime.Singleton);
         builder.Register<MainAvatarData>(Lifetime.Singleton);
         builder.Register<MoveTargetMakerService>(Lifetime.Singleton);
+        
+        DontDestroyOnLoad(gameObject);
     }
+
+    /*private bool SpawnPlayer(ulong clientId)
+    {
+        var newGameObject = NetworkManager.Instantiate(avatarPrefab, Vector3.zero, Quaternion.identity);
+        //newGameObject.name = $"Avatar_{avatarSequence}";
+        
+        var networkObject = newGameObject.GetComponent<NetworkObject>();
+        if (networkObject == null)
+        {
+            Debug.Log($"networkObject is null. {clientId}");
+            return false;
+        }
+        
+        //Container.InjectGameObject(newGameObject);
+        
+        
+        
+        /*if (networkObject.IsOwner)
+        {
+            newGameObject.AddComponent<GoapActionProvider>();
+            newGameObject.AddComponent<AgentBehaviour>();
+        }#1#
+        
+        //var avatarContainer = Container.Resolve<AvatarContainer>();
+        //var avatar = newGameObject.GetComponent<Avatar>();
+        //avatar.Initialize(avatarSequence);
+        //avatarContainer.Add(clientId, avatar);
+        
+        networkObject.SpawnAsPlayerObject(NetworkManager.Singleton.LocalClientId);
+        
+        return true;
+    }*/
+    
+    
 }
