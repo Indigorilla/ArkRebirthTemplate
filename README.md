@@ -30,6 +30,10 @@ Wandering Mode 전환: 화면상의 Wandering Mode 토글 버튼 클릭 (좌 클
 
 ## 프로젝트 요약
 
+### UML
+![Image](https://github.com/user-attachments/assets/f1a33af1-5bea-445d-a2c4-6b6afbd84f76)
+(이미지 클릭 시 확대)
+
 ### 의존성 주입
 * [GameLifetimeScope.cs](https://github.com/Indigorilla/ArkRebirthTemplate/blob/main/Assets/Code/GameLifetimeScope.cs) : 의존성 주입의 시작점으로 게임 전체의 의존성 세팅
 * [GameUILifetimeScope.cs](https://github.com/Indigorilla/ArkRebirthTemplate/blob/main/Assets/Code/GameUILifetimeScope.cs) : 게임의 UI 처리에 필요한 의존성 세팅
